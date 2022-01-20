@@ -69,7 +69,7 @@ export default App
 
 ```
 
-A linkt to React Hooks
+A link to React Hooks
 
 https://reactjs.org/docs/hooks-intro.html
 
