@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+# React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+## React render
 
-### `yarn start`
+When data changes, React will efficiently update and re-render our components.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+In particular, render returns a React element, which is a lightweight description of what to render.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Effects are declared inside the component so they have access to its props and state.
 
-### `yarn test`
+By default, React runs the effects after every render.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
 
-### `yarn build`
+import ReactDOM from 'react-dom'
+import App from './App'
+import './index.css'
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ReactDOM.render(
+  <App />, 
+  document.getElementById('root')
+)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## React props
 
-### `yarn eject`
+A component takes in parameters, called props (short for "properties"), and returns a hierarchy of views to display via the render method.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Passing props is how information flows in React apps, from parents to children.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The term "render prop" refers to a technique for sharing code between React components using a prop whose value is a function.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+A component with a render prop takes a function that returns a React element and calls it instead of implementing its own render logic.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
 
-## Learn More
+import React, { useState } from 'react'
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const All = (props) => {
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  const total = props.good_props + props.neutral_props + props.bad_props
 
-### Code Splitting
+    return (
+        <p>All: {total}</p>
+    )
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+const Average = (props) => {
 
-### Analyzing the Bundle Size
+  const total = props.good_props + props.neutral_props + props.bad_props
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  let average = 0;
 
-### Making a Progressive Web App
+  if (total > 0) {
+    average = ((props.good_props - props.bad_props) / total)
+  }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+    return (
+        <p>Average: {average}</p>
+    )
+}
 
-### Advanced Configuration
+const Positive = (props) => {
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+  const total = props.good_props + props.neutral_props + props.bad_props
 
-### Deployment
+  let positive = 0;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+  if (total > 0) {
+    positive = (props.good_props / total) * 100
+  }
+    return (
+        <p>Positive: {positive}%</p>
+    )
+}
 
-### `yarn build` fails to minify
+const App = () => {
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  return (
+    <div>
+      <h1>Unicafe</h1>
+      <div>
+      <h2>Feedback</h2>
+        <button onClick={() => setGood(good + 1)}>
+          Good
+        </button>
+        <button onClick={() => setNeutral(neutral + 1)}>
+          Neutral
+        </button>
+        <button onClick={() => setBad(bad + 1)}>
+          Bad
+        </button>
+      </div>
+      <div>
+      <h2>Statistics</h2>
+        <p>Good:  {good}</p>
+        <p>Neutral: {neutral}</p> 
+        <p>Bad: {bad}</p>
+        <All good_props={good} neutral_props={neutral} bad_props={bad}/>
+        <Average good_props={good} neutral_props={neutral} bad_props={bad}/>
+        <Positive good_props={good} neutral_props={neutral} bad_props={bad}/>
+      </div>
+    </div>
+  )
+}
+
+export default App
+
+```

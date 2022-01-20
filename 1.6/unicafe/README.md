@@ -2,69 +2,74 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## React
 
-In the project directory, you can run:
+A React component takes in parameters, called props (short for "properties"), and returns a hierarchy of views to display via the render method.
 
-### `yarn start`
+App is React component type in the below. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+We can now refer to the whole App by writing <App />.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## React JSX
 
-### `yarn test`
+React uses a special syntax called JSX for the description of what you want to see on the screen.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+React uses a syntax extension of JavaScript called JSX that allows you to write HTML directly within JavaScript. 
 
-### `yarn build`
+You include the code you want to be treated as JavaScript within curly braces: {}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can put any JavaScript expressions within curly braces {} inside JSX.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## React Hooks
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+React Hooks are functions that let you "hook into" React state and lifecycle features from function components, for example to use built-in state with useState function.
 
-### `yarn eject`
+The useState returns a pair of the current state value and a function that lets you update it.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The array destructuring syntax [] lets us give different names to the state variables we declared by calling useState.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Effect Hook, called useEffect, adds the ability to perform side effects from a function component.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+import React, { useState } from 'react'
 
-## Learn More
+const App = () => {
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  return (
+    <div>
+      <h1>Unicafe</h1>
+      <div>
+      <h2>Feedback</h2>
+        <button onClick={() => setGood(good + 1)}>
+          Good
+        </button>
+        <button onClick={() => setNeutral(neutral + 1)}>
+          Neutral
+        </button>
+        <button onClick={() => setBad(bad + 1)}>
+          Bad
+        </button>
+      </div>
+      <div>
+      <h2>Statistics</h2>
+        <p>Good:  {good}</p>
+        <p>Neutral: {neutral}</p> 
+        <p>Bad: {bad}</p>
+      </div>
+    </div>
+  )
+}
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+export default App
 
-### Code Splitting
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+A linkt to React Hooks
 
-### Analyzing the Bundle Size
+https://reactjs.org/docs/hooks-intro.html
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

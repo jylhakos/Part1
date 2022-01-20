@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+# React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```
 
-## Available Scripts
+import React, { useState } from 'react'
 
-In the project directory, you can run:
+const Button = (props) => (
 
-### `yarn start`
+  <button onClick={props.handleClick}>{props.text}</button>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+const All = (props) => {
 
-### `yarn test`
+  const total = props.good + props.neutral + props.bad
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    return (
+        <>
+        <td>All:</td><td>{total}</td>
+        </>
+    )
+}
 
-### `yarn build`
+const Average = (props) => {
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  const total = props.good + props.neutral + props.bad
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  let average = 0;
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  if (total > 0) {
+    average = ((props.good - props.bad) / total)
+  }
 
-### `yarn eject`
+    return (
+        <>
+        <td>Average:</td><td>{average}</td>
+        </>
+    )
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+const Positive = (props) => {
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  const total = props.good + props.neutral + props.bad
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  let positive = 0;
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  if (total > 0) {
+    positive = (props.good / total) * 100
+  }
+    return (
+        <>
+        <td>Positive:</td><td>{positive}%</td>
+        </>
+    )
+}
 
-## Learn More
+const Statistic = (props) => {
+  return (
+    <>
+    <td>{props.text}</td><td>{props.value}</td>
+    </>
+  )
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const Statistics = (props) => {
+  if (props.good === 0 && props.neutral === 0 && props.bad === 0) {
+    return (
+      <>
+      <p>No feedback given</p>
+      </>
+    )
+  } else {
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  return (
+    <>
+    <table>
+    <tbody>
+    <tr><Statistic text="Good:" value={props.good}/></tr>
+    <tr><Statistic text="Neutral:" value={props.neutral}/></tr>
+    <tr><Statistic text="Bad:" value={props.bad}/></tr>
+    <tr><All good={props.good} neutral={props.neutral} bad={props.bad}/></tr>
+    <tr><Average good={props.good} neutral={props.neutral} bad={props.bad}/></tr>
+    <tr><Positive good={props.good} neutral={props.neutral} bad={props.bad}/></tr>
+    </tbody>
+    </table>
+    </>
+  )}
+}
 
-### Code Splitting
+const App = () => {
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  return (
+    <div>
+      <h1>Unicafe</h1>
+      <div>
+      <h2>Feedback</h2>
+        <>
+        <Button handleClick={() => setGood(good + 1)} text="Good"/>
+        <Button handleClick={() => setNeutral(neutral + 1)} text="Neutral"/>
+        <Button handleClick={() => setBad(bad + 1)} text="Bad"/>
+        </>
+      </div>
+      <div>
+      <h2>Statistics</h2>
+        <Statistics good={good} neutral={neutral} bad={bad}/>
+      </div>
+    </div>
+  )
+}
 
-### Analyzing the Bundle Size
+export default App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
